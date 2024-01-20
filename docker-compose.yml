@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: next-app
+    container_name: app
     ports:
       - '3001:3000'
     env_file:
@@ -16,6 +16,10 @@ services:
     restart: always
     tty: true
     stdin_open: true
+    networks:
+      - default
+    depends_on:
+      - mysql
 
   mysql:
     image: mysql:8.0
@@ -28,11 +32,15 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      TZ: Asia/Tokyo
     volumes:
       # 設定ファイルディレクトリにマウントする
       - ./mysql/conf.d:/etc/mysql/conf.d
       # DB初期化ディレクトリにマウントする
-      # - ./mysql/init.d:/docker-entrypoint-initdb.d
+      - ./mysql/init.d:/docker-entrypoint-initdb.d
+      # dataのボリュームマウント
+      - ./mysql/data:/var/lib/mysql
     # ネットワーク
     networks:
       - default
