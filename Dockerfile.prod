@@ -1,0 +1,27 @@
+# ビルドステージ
+FROM node:20-alpine as builder
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+# パッケージのインストールとビルド
+RUN npm ci && npm cache clean --force
+
+COPY . .
+
+# Next.jsアプリケーションのビルド
+RUN npm run build
+
+# 本番ステージ
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+
+# 本番用のスタートコマンド
+CMD ["npm", "start"]
