@@ -40,7 +40,7 @@ docker compose up again.
 
 ## Prisma
 
-### generate
+### generate（コンテナ立ち上げ時に実行される）
 
 ```bash
 cd project-root
@@ -50,6 +50,7 @@ npx prisma generate
 ### migrate
 
 ```bash
+docker compose exec -it app bash
 cd project-root
 npx prisma migrate dev
 ```
@@ -57,6 +58,7 @@ npx prisma migrate dev
 ### reset
 
 ```bash
+docker compose exec -it app bash
 cd project-root
 npx prisma migrate reset
 ```
@@ -64,6 +66,7 @@ npx prisma migrate reset
 ### deploy
 
 ```bash
+docker compose exec -it app bash
 cd project-root
 npx prisma migrate deploy
 ```
