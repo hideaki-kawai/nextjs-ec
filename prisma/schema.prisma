@@ -38,6 +38,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -50,12 +51,13 @@ model User {
 }
 
 model Purchase {
-  id String @id @default(cuid())
-  userId String
-  bookId String
+  id        String   @id @default(cuid())
+  userId    String
+  bookId    String
   createdAt DateTime @default(now())
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 
 model VerificationToken {
   identifier String

@@ -1,10 +1,15 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-// import { getServerSession } from 'next-auth';
-// import { nextAuthOptions } from '../lib/next-auth/options';
+import { getServerSession } from 'next-auth';
+import { nextAuthOptions } from '@/lib/options';
+import { useSession } from 'next-auth/react';
 
-export const Header = async () => {
+export const Header = () => {
+  const { data: session } = useSession();
+  const user = session?.user;
+  console.log(user);
   //   const session = await getServerSession(nextAuthOptions);
   //   const user = session?.user;
 
@@ -21,7 +26,7 @@ export const Header = async () => {
           >
             ホーム
           </Link>
-          {/* <Link
+          <Link
             href={user ? '/profile' : '/api/auth/signin'}
             className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
           >
@@ -45,7 +50,7 @@ export const Header = async () => {
               alt="profile_icon"
               src={user?.image || '/default_icon.png'}
             />
-          </Link> */}
+          </Link>
         </div>
       </nav>
     </header>
