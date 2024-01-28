@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import { getServerSession } from 'next-auth';
 import { nextAuthOptions } from '@/lib/options';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 export const Header = () => {
   const { data: session } = useSession();
@@ -37,12 +37,13 @@ export const Header = () => {
               href={'/api/auth/signout?callbackUrl=/'}
               className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             >
-              ログアウト
+              <button onClick={() => signOut({ callbackUrl: '/login' })}>
+                ログアウト
+              </button>
             </Link>
           ) : (
             ''
           )}
-
           <Link href={`/profile`}>
             <Image
               width={50}
