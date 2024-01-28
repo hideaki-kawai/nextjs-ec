@@ -4,58 +4,16 @@
 // import { getServerSession } from "next-auth";
 // import { nextAuthOptions } from "./lib/next-auth/options";
 import { Book } from '@/components/Book';
+import { getAllBooks } from '@/lib/microcms/client';
 import { BookType } from '@/types/types';
 import { Suspense } from 'react';
 // import Loading from "./loading";
 // import { getServerSession } from "next-auth";
 // import { nextAuthOptions } from "./lib/next-auth/options";
 
-// 疑似データ
-const books = [
-  {
-    id: 1,
-    title: 'Book 1',
-    thumbnail: '/thumbnails/discord-clone-udemy.png',
-    author: {
-      id: 1,
-      name: 'Author 1',
-      description: 'Author 1 description',
-      profile_icon: 'https://source.unsplash.com/random/2',
-    },
-    content: 'Content 1',
-    created_at: new Date().toString(),
-    updated_at: new Date().toString(),
-  },
-  {
-    id: 2,
-    title: 'Book 2',
-    thumbnail: '/thumbnails/notion-udemy.png',
-    author: {
-      id: 2,
-      name: 'Author 2',
-      description: 'Author 2 description',
-      profile_icon: 'https://source.unsplash.com/random/3',
-    },
-    content: 'Content 2',
-    created_at: new Date().toString(),
-    updated_at: new Date().toString(),
-  },
-  {
-    id: 3,
-    title: 'Book 3',
-    thumbnail: '/thumbnails/openai-chatapplication-udem.png',
-    author: {
-      id: 3,
-      name: 'Author 3',
-      description: 'Author 3 description',
-      profile_icon: 'https://source.unsplash.com/random/4',
-    },
-    content: 'Content 3',
-    created_at: new Date().toString(),
-    updated_at: new Date().toString(),
-  },
-];
 export default async function Home() {
+  const { contents } = await getAllBooks();
+
   // const [books, setBooks] = useState<BookType[]>([]);
   // const [purchasedBookIds, setPurchasedBookIds] = useState<number[]>([]);
 
@@ -105,14 +63,9 @@ export default async function Home() {
         <h2 className="text-center w-full font-bold text-3xl mb-2">
           Book Commerce
         </h2>
-        {/* {contents.map((book: BookType) => (
-          <Book
-            key={book.id}
-            book={book}
-            user={user}
-            isPurchased={purchasedIds.includes(book.id)}
-          />
-        ))} */}
+        {contents.map(book => (
+          <Book key={book.id} book={book} user="" isPurchased={false} />
+        ))}
       </main>
     </>
   );
